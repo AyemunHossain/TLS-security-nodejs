@@ -1,0 +1,7 @@
+###
+{{base_url}}/
+Content-Type: application/json
+
+###
+{{base_url}}/api/get-users
+Content-Type: application/json
