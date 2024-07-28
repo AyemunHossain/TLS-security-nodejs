@@ -48,24 +48,29 @@ const encryptOutgoingResponse = (req, res, next) => {
     const originalWrite = res.write;
     const originalEnd = res.end;
 
-    // // Override `res.write` to capture data
+    // Override `res.write` to capture data
     res.write = function (chunk, encoding, callback) {
-        chunks.push(chunk);
-        originalWrite.call(this, chunk, encoding, callback);
+        chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk, encoding));
+        originalWrite.apply(res, arguments);
     };
 
     // Override `res.end` to finalize and encrypt data
     res.end = function (chunk, encoding, callback) {
-
         if (chunk) {
-            chunks.push(chunk);
+            chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk, encoding));
         }
 
         const body = Buffer.concat(chunks).toString('utf8');
-        const encryptedBody =  secret.encryptData(body);
-        console.log({encryptedBody})
-        const encryptedBuffer = Buffer.from(encryptedBody, 'base64');
-        originalEnd.call(this,encryptedBuffer, 'base64', callback);
+        const encryptedBody = secret.encryptData(body);
+
+        // Convert the encrypted body to a buffer
+        const encryptedBuffer = Buffer.from(encryptedBody, 'utf8');
+        
+        // Set the content length to the encrypted buffer length
+        res.setHeader('Content-Length', encryptedBuffer.length);
+
+        // Call the original `end` with the encrypted buffer
+        originalEnd.call(this, encryptedBuffer, encoding, callback);
     };
 
     next();
