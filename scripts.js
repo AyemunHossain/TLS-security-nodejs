@@ -42,4 +42,4 @@ const decryptData = (data) => {
     }
 };
 
-console.log({decryptData: decryptData("v3p5vnJRKhrcy6JxxvWBFWzuksRqVAKpExMP1RbgAH7nPzm3vyYzEZ8pgBLqbPlEu9YC3V3xmYyGuw9Jl474iTwXczlVfpqDnoyj1WkRu+reeT4XBkSQYiTyM/QsFsnbmHJl+i59H4xDeBNPv7d3P3mYbbXIo85PDRFTCktqSfE6EDCwgXks4X1nAfSd6cqZ3ojAJLAxRvOAUXwfD93rAjdTZ1omEiXFCV3nOFvB019pdy+qDGvd+ib/gbbznLokA0Uin8+X4CW2OJRMPQPXC8xT/Iw0+PF4xsIxLynEpq2Ot/Yx6tVsAdqfo0xW9uutlCEfh0o59tfTnbRcIszMeA==")})
+console.log({decryptData: decryptData("lQxo/bobnUeDlaIsNPTZSbvie2ssAfFlTgohePcK+ZUYWw+yjlyWCFa+0wf/THDfkE/g9WFn/jdPJIvM5eiKv1KDr5/y/EE/1a8yApAWYYdyg9JSqMMu+5Hiteax59qtGjnEoT8dIYXorlFKsjjjIwISICNANBmYpeFmLqmg2jPd3IWtDxIsN4mQvZEp9znHXEK23QHChKT0p1Ts7pnS2EeITevlCTYzjUTJdNVmAmLXLaOGSjBLutnj2X1oop6U2T904TaE2kQI6xdCJYqHSRGkEWUCGZuHyyRzVdt3v1aRFRKnEONzTDFLU4B7uv3qGo91pPMseAxy8c9HOi4bxQ==")})
