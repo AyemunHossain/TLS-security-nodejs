@@ -3,39 +3,61 @@ const fs = require("fs");
 const path = require("path");
 require("dotenv").config();
 
-const PUBLIC_KEY = process.env.PUBLIC_KEY || fs.readFileSync(path.join(__dirname, "public_key.pem"));
-const PRIVATE_KEY = process.env.PRIVATE_KEY || fs.readFileSync(path.join(__dirname, "private_key.pem"));
+const PUBLIC_KEY = process.env.PUBLIC_KEY || fs.readFileSync(path.join(__dirname, "public_key.pem"), "utf8");
+const PRIVATE_KEY = process.env.PRIVATE_KEY || fs.readFileSync(path.join(__dirname, "private_key.pem"), "utf8");
 
 const encryptData = (data) => {
     try {
-        const buffer = Buffer.from(data, "utf8");
-        const encrypted = crypto.publicEncrypt(
+        // Generate a random AES key
+        const aesKey = crypto.randomBytes(32); // 256-bit key for AES-256
+        const iv = crypto.randomBytes(16); // Initialization vector for AES
+
+        // Encrypt the data with AES key
+        const cipher = crypto.createCipheriv('aes-256-cbc', aesKey, iv);
+        let encryptedData = cipher.update(data, 'utf8', 'base64');
+        encryptedData += cipher.final('base64');
+
+        // Encrypt the AES key with RSA public key
+        const encryptedAesKey = crypto.publicEncrypt(
             {
                 key: PUBLIC_KEY,
                 padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
                 oaepHash: "sha256",
             },
-            buffer
+            aesKey
         );
-        return encrypted.toString("base64");
+
+        return {
+            iv: iv.toString('base64'),
+            encryptedData: encryptedData,
+            encryptedKey: encryptedAesKey.toString('base64')
+        };
     } catch (err) {
         console.log("utils.js: encryptData:", err);
         return false;
     }
 };
 
-const decryptData = (data) => {
+const decryptData = (encryptedPackage) => {
     try {
-        const buffer = Buffer.from(data, "base64");
-        const decrypted = crypto.privateDecrypt(
+        const { iv, encryptedData, encryptedKey } = encryptedPackage;
+
+        // Decrypt the AES key with RSA private key
+        const aesKey = crypto.privateDecrypt(
             {
                 key: PRIVATE_KEY,
                 padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
                 oaepHash: "sha256",
             },
-            buffer
+            Buffer.from(encryptedKey, "base64")
         );
-        return decrypted.toString("utf8");
+
+        // Decrypt the data with AES key
+        const decipher = crypto.createDecipheriv('aes-256-cbc', aesKey, Buffer.from(iv, "base64"));
+        let decryptedData = decipher.update(encryptedData, 'base64', 'utf8');
+        decryptedData += decipher.final('utf8');
+
+        return decryptedData;
     } catch (err) {
         console.log("utils.js: decryptData:", err);
         return false;
@@ -65,10 +87,9 @@ const generateKeys = () => {
     }
 };
 
-
 const verifyKeys = () => {
     try {
-        if (!fs.existsSync(PUBLIC_KEY) || !fs.existsSync(PRIVATE_KEY)) {
+        if (!fs.existsSync(path.join(__dirname, "public_key.pem")) || !fs.existsSync(path.join(__dirname, "private_key.pem"))) {
             generateKeys();
             return true;
         }
@@ -145,3 +166,17 @@ module.exports = {
     generateCryptographicallySecureRandomString,
     generateChecksum
 };
+
+// Usage example
+// newFunction();
+// function newFunction() {
+//     const encryptedResult = encryptData("This is the data to be encrypted.");
+//     if (encryptedResult) {
+//         console.log("Encrypted Data:", encryptedResult.encryptedData);
+//         console.log("Encrypted AES Key:", encryptedResult.encryptedKey);
+//         console.log("Initialization Vector:", encryptedResult.iv);
+
+//         const decryptedResult = decryptData(encryptedResult);
+//         console.log("Decrypted Data:", decryptedResult);
+//     }
+// }

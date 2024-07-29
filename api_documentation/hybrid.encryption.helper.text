@@ -1,0 +1,20 @@
+Hybrid Encryption Implementation:
+
+AES Key Generation: A random AES key and initialization vector (IV) are generated.
+Data Encryption: The data is encrypted using AES with the generated key and IV.
+AES Key Encryption: The AES key is encrypted using the RSA public key.
+Return Encrypted Package: The function returns an object containing the IV, encrypted data, and encrypted AES key.
+Hybrid Decryption Implementation:
+
+AES Key Decryption: The AES key is decrypted using the RSA private key.
+Data Decryption: The encrypted data is decrypted using the decrypted AES key and IV.
+Environment Variables and File Reading:
+
+Public and private keys are read from environment variables or files.
+Key Generation and Verification:
+
+RSA key pair generation and file saving.
+Verification of key existence and generation if necessary.
+Digital Signature and Hash Functions:
+
+Functions for signing data, verifying signatures, generating hashes, and creating cryptographically secure random strings.
