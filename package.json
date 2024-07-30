@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/AyemunHossain/TLS-security-nodejs#readme",
   "dependencies": {
+    "cross-env": "^7.0.3",
     "crypto": "^1.0.1",
     "date-fns": "^3.6.0",
     "dotenv": "^16.4.5",

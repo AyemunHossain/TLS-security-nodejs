@@ -1,5 +1,5 @@
 
-const secret = require('./utils');
+const secret = require('../utils/utils');
 
 // Middleware to encrypt response
 const encryptOutgoingResponse = (req, res, next) => {

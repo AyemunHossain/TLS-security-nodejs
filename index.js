@@ -4,9 +4,9 @@ const fs = require("fs");
 const http = require("http");
 const express = require("express");
 const app = express();
-const routes = require('./routes');
-const inComingReqMiddleware = require("./inComingReqMiddleware");
-const outGoingResMiddleware = require("./outGoingResMiddleware");
+const routes = require('./routes/routes');
+const inComingReqMiddleware = require("./middleware/inComingReqMiddleware");
+const outGoingResMiddleware = require("./middleware/outGoingResMiddleware");
 
 app.use(inComingReqMiddleware);
 
@@ -20,9 +20,9 @@ app.get("/", (req, res, next) => {
 app.use('/api', outGoingResMiddleware, routes);
 
 const credentials = {
-    key: fs.readFileSync("ssl/private.key"),
-    cert: fs.readFileSync("ssl/bundle.crt"),
-    dhparam: fs.readFileSync("ssl/dh-strong.pem"),
+    key: fs.readFileSync("keys/ssl/private.key"),
+    cert: fs.readFileSync("keys/ssl/bundle.crt"),
+    dhparam: fs.readFileSync("keys/ssl/dh-strong.pem"),
     requestCert: true,
     rejectUnauthorized: false
 };

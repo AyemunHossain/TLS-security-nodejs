@@ -1,4 +1,4 @@
-const secret = require('./utils');
+const secret = require('../utils/utils');
 
 const decryptIncomingRequest = (req, res, next) => {
     console.log("heeee");
