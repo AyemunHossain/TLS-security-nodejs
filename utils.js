@@ -8,6 +8,7 @@ const PRIVATE_KEY = process.env.PRIVATE_KEY || fs.readFileSync(path.join(__dirna
 
 const encryptData = (data) => {
     try {
+        if (!data) return false;
         // Generate a random AES key
         const aesKey = crypto.randomBytes(32); // 256-bit key for AES-256
         const iv = crypto.randomBytes(16); // Initialization vector for AES
@@ -40,7 +41,11 @@ const encryptData = (data) => {
 
 const decryptData = (encryptedPackage) => {
     try {
+        if (!encryptedPackage) return false;
+
         const { iv, encryptedData, encryptedKey } = encryptedPackage;
+
+        if(!iv || !encryptedData || !encryptedKey) return false;
 
         // Decrypt the AES key with RSA private key
         const aesKey = crypto.privateDecrypt(
@@ -115,6 +120,8 @@ const verifySignature = (data, signature) => {
 
 const signData = (data) => {
     try {
+        if(!data || typeof(data)!='string') return false;
+
         const signer = crypto.createSign("RSA-SHA256");
         signer.update(data);
         signer.end();
@@ -127,6 +134,8 @@ const signData = (data) => {
 
 const generateHash = (data) => {
     try {
+        if(!data) return false;
+
         const buffer = Buffer.from(data, "utf8");
         const hash = crypto.createHash("sha256");
         hash.update(buffer);
@@ -139,6 +148,7 @@ const generateHash = (data) => {
 
 const generateCryptographicallySecureRandomString = (length) => {
     try {
+        if(!length) return false;
         return crypto.randomBytes(length).toString("hex");
     } catch (err) {
         console.log("utils.js: generateCryptographicallySecureRandomString:", err);
@@ -148,6 +158,7 @@ const generateCryptographicallySecureRandomString = (length) => {
 
 const generateChecksum = (data) => {
     try {
+        if(!data) return false;
         return crypto.createHash('sha256').update(data).digest('hex');
     } catch (err) {
         console.log("utils.js: generateChecksum:", err);

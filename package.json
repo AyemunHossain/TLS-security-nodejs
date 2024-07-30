@@ -4,8 +4,8 @@
   "description": "This repo is about TLS security in nodejs",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "test": "jest --detectOpenHandles"
   },
   "repository": {
     "type": "git",
