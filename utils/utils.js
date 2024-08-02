@@ -105,6 +105,22 @@ const verifyKeys = () => {
     }
 };
 
+const genreateSignature = (data) => {
+    try {
+
+        if(!data || typeof(data)!='string') return false;
+        
+        const signer = crypto.createSign("RSA-SHA256");
+        signer.update(data);
+        signer.end();
+        return signer.sign(PRIVATE_KEY).toString("base64");
+    }
+    catch (err) {
+        console.log("utils.js: genreateSignature:", err);
+        return false;
+    }
+};
+
 const verifySignature = (data, signature) => {
     try {
         const buffer = Buffer.from(signature, "base64");
@@ -134,7 +150,19 @@ const signData = (data) => {
 
 const generateHash = (data) => {
     try {
-        if(!data) return false;
+        
+        const typeOfData = typeof(data);
+        
+        if(typeOfData === "object") {
+            length = Object.keys(data).length;
+            if(length === 0) return false;
+        }
+        if(typeOfData === "string" || typeOfData === "array") {
+            if(data.length === 0) return false;
+        }
+        if(typeOfData === "undefined") {
+            return false;
+        }
 
         const buffer = Buffer.from(data, "utf8");
         const hash = crypto.createHash("sha256");
@@ -171,6 +199,7 @@ module.exports = {
     decryptData,
     generateKeys,
     verifyKeys,
+    genreateSignature,
     verifySignature,
     signData,
     generateHash,
