@@ -1,5 +1,5 @@
 {
-  "name": "tls-security-nodejs",
+  "name": "secure-tls",
   "version": "1.0.0",
   "description": "This repo is about TLS security in nodejs",
   "main": "index.js",
