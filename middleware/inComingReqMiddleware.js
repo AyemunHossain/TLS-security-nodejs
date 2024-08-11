@@ -1,8 +1,7 @@
 const secret = require('../utils/utils');
 
 const decryptIncomingRequest = (req, res, next) => {
-    console.log("heeee");
-
+    
     if (req.method === 'GET') {
         if (Object.keys(req.query).length) {
             for (const key in req.query) {

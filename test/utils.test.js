@@ -500,7 +500,6 @@ describe("utils.js", () => {
       });
     });
 
-
     describe("verifySignature", () => {
       describe("verifySignature should verify signature for any data", () => {
         it("should return true if signature is valid", () => {
@@ -614,10 +613,9 @@ describe("utils.js", () => {
           const isValid = secret.verifySignature("", undefined);
           expect(isValid).toBeFalsy();
         });
+        
       });
     });
-
-    
 
   });
 });

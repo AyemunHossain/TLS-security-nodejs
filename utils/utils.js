@@ -206,17 +206,3 @@ module.exports = {
     generateCryptographicallySecureRandomString,
     generateChecksum
 };
-
-// Usage example
-// newFunction();
-// function newFunction() {
-//     const encryptedResult = encryptData("This is the data to be encrypted.");
-//     if (encryptedResult) {
-//         console.log("Encrypted Data:", encryptedResult.encryptedData);
-//         console.log("Encrypted AES Key:", encryptedResult.encryptedKey);
-//         console.log("Initialization Vector:", encryptedResult.iv);
-
-//         const decryptedResult = decryptData(encryptedResult);
-//         console.log("Decrypted Data:", decryptedResult);
-//     }
-// }
