@@ -45,7 +45,7 @@ const decryptData = (encryptedPackage) => {
 
         const { iv, encryptedData, encryptedKey } = encryptedPackage;
 
-        if(!iv || !encryptedData || !encryptedKey) return false;
+        if (!iv || !encryptedData || !encryptedKey) return false;
 
         // Decrypt the AES key with RSA private key
         const aesKey = crypto.privateDecrypt(
@@ -108,8 +108,8 @@ const verifyKeys = () => {
 const genreateSignature = (data) => {
     try {
 
-        if(!data || typeof(data)!='string') return false;
-        
+        if (!data || typeof (data) != 'string') return false;
+
         const signer = crypto.createSign("RSA-SHA256");
         signer.update(data);
         signer.end();
@@ -136,7 +136,7 @@ const verifySignature = (data, signature) => {
 
 const signData = (data) => {
     try {
-        if(!data || typeof(data)!='string') return false;
+        if (!data || typeof (data) != 'string') return false;
 
         const signer = crypto.createSign("RSA-SHA256");
         signer.update(data);
@@ -150,17 +150,17 @@ const signData = (data) => {
 
 const generateHash = (data) => {
     try {
-        
-        const typeOfData = typeof(data);
-        
-        if(typeOfData === "object") {
+
+        const typeOfData = typeof (data);
+
+        if (typeOfData === "object") {
             length = Object.keys(data).length;
-            if(length === 0) return false;
+            if (length === 0) return false;
         }
-        if(typeOfData === "string" || typeOfData === "array") {
-            if(data.length === 0) return false;
+        if (typeOfData === "string" || typeOfData === "array") {
+            if (data.length === 0) return false;
         }
-        if(typeOfData === "undefined") {
+        if (typeOfData === "undefined") {
             return false;
         }
 
@@ -176,7 +176,7 @@ const generateHash = (data) => {
 
 const generateCryptographicallySecureRandomString = (length) => {
     try {
-        if(!length) return false;
+        if (!length) return false;
         return crypto.randomBytes(length).toString("hex");
     } catch (err) {
         console.log("utils.js: generateCryptographicallySecureRandomString:", err);
@@ -186,7 +186,7 @@ const generateCryptographicallySecureRandomString = (length) => {
 
 const generateChecksum = (data) => {
     try {
-        if(!data) return false;
+        if (!data) return false;
         return crypto.createHash('sha256').update(data).digest('hex');
     } catch (err) {
         console.log("utils.js: generateChecksum:", err);

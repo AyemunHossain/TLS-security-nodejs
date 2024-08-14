@@ -1,6 +1,4 @@
 "use strict";
-
-const fs = require("fs");
 const http = require("http");
 const express = require("express");
 const app = express();
@@ -18,14 +16,6 @@ app.get("/", (req, res, next) => {
 });
 
 app.use('/api', outGoingResMiddleware, routes);
-
-const credentials = {
-    key: fs.readFileSync("keys/ssl/private.key"),
-    cert: fs.readFileSync("keys/ssl/bundle.crt"),
-    dhparam: fs.readFileSync("keys/ssl/dh-strong.pem"),
-    requestCert: true,
-    rejectUnauthorized: false
-};
 
 const server = http.createServer( app);
 
